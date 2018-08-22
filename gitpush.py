@@ -26,7 +26,9 @@ def main():
     # check if remote in config, if not, add the remote
     git_remotes = subprocess.check_output(['git', 'remote', '-v'])
     git_remotes_str = bytes.decode(git_remotes).strip()
-    git_remotes_list = [line.split()[0] for line in git_remotes_str.split('\n')]
+    git_remotes_list = []
+    if git_remotes_str:
+        git_remotes_list = [line.split()[0] for line in git_remotes_str.split('\n')]
     for k,v in gitconfig['git'].items():
         if k not in git_remotes_list:
             subprocess.check_call(['git', 'remote', 'add', k, v[0]])
